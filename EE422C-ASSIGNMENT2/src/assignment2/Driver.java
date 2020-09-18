@@ -1,10 +1,11 @@
+//Driver.java
 /*
  * EE422C Project 2 (Mastermind) submission by
- * Replace <...> with your actual data. 
- * <Student Name>
- * <Student EID>
- * Slip days used: <0>
- * Summer 2020
+ * Mina Abbassian
+ * mea2947
+ * 16170
+ * Fall 2020
+ * Slip days used:
  */
 
 package assignment2;
