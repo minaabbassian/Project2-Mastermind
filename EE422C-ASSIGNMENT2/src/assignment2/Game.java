@@ -113,30 +113,39 @@ public class Game {
 	 *  	   the number of white ones, if any
 	 */
 	private Response formulateReply(String turn) {
-		 boolean[] isUsedB = new boolean[gameRules.pegNumber];
-		    boolean[] isUsedW = new boolean[gameRules.pegNumber];
-		    int black = 0;
-		    int white = 0;
-
-		    for(int i = 0; i < turn.length(); i++) {
-		      if(turn.charAt(i) == secretCode.charAt(i)) {
-		        isUsedB[i] = true;
-		        isUsedW[i] = true;
-		        black++;
-		      }
+		
+		//holds the number of black and white pegs in feedback response
+		int bPegs = 0;
+	    int wPegs = 0;
+	    
+	    //references to if any black or white pegs are used in a location
+		boolean[] blackRef = new boolean[gameRules.pegNumber];
+		boolean[] whiteRef = new boolean[gameRules.pegNumber];
+		   
+		//check if there are any black pegs in the feedback response
+		for(int i = 0; i < turn.length(); i++) {
+			//if a character in the player's guess is in the exact same position as in the secret code
+			if(turn.charAt(i) == secretCode.charAt(i)) {
+				bPegs++;
+				whiteRef[i] = true; //no more white pegs for this location
+				blackRef[i] = true; //no more black pegs for this location
 		    }
+		}
 
-		    for(int i = 0; i < turn.length(); i++) {
-		      boolean useFlag = false; // to account for non duplicate white pegs
-		      for(int j = 0; j < turn.length(); j++) {
-		        if(turn.charAt(i) == secretCode.charAt(j) && !isUsedW[j] && !useFlag) {
-		          isUsedW[j] = true;
-		          white++;
-		          useFlag = true;
+		//check if there are any white pegs in the feedback response
+		for(int i = 0; i < turn.length(); i++) {
+			boolean alreadyDone = false; 
+			//compares a character to every other character in the secret code 
+			for(int j = 0; j < turn.length(); j++) {
+				if(turn.charAt(i) == secretCode.charAt(j) && !whiteRef[j] && !alreadyDone) {
+					wPegs++;
+					alreadyDone = true;
+					whiteRef[j] = true;
 		        }
-		      }
-		    }
-		    return new Response(black, white);
+			}
+		}
+		return new Response(bPegs, wPegs);
+	
 	}
 	
 
