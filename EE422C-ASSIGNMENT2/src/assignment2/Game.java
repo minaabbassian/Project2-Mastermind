@@ -31,7 +31,7 @@ public class Game {
 	public Game(Boolean test, GameConfiguration rules, SecretCodeGenerator genCode, Scanner scan) {
 		isTest = test;
 		gameRules = rules;
-		secretCode = genCode.getNewSecretCode();
+		secretCode = genCode.getInstance().getNewSecretCode();
 		guessValidity = new PlayerGuesses(rules);
 		guessesLeft = rules.guessNumber;
 		refScanner = scan;
