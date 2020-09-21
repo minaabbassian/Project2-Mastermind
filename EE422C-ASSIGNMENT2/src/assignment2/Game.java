@@ -31,7 +31,7 @@ public class Game {
 	public Game(Boolean test, GameConfiguration rules, SecretCodeGenerator genCode, Scanner scan) {
 		isTest = test;
 		gameRules = rules;
-		secretCode = genCode.getNewSecretCode();
+		secretCode = genCode.getInstance().getNewSecretCode();
 		guessValidity = new PlayerGuesses(rules);
 		guessesLeft = rules.guessNumber;
 		refScanner = scan;
@@ -48,6 +48,8 @@ public class Game {
 		if(isTest) {
 			System.out.println("Secret code: " + secretCode);
 			System.out.println(); //maybe change?????
+		} else {
+			System.out.println();
 		}
 		
 		String turn;
@@ -68,7 +70,7 @@ public class Game {
 			
 			//check whether the player's guess is invalid
 			if(!guessValidity.guessValidity(turn)) {
-				System.out.println("INVALID_GUESS");
+				System.out.println("INVALID_GUESS"); 
 				System.out.println();
 				continue;
 			}
@@ -111,42 +113,49 @@ public class Game {
 	 *  	   the number of white ones, if any
 	 */
 	private Response formulateReply(String turn) {
+		//copy of the secret code and the player's guess
+		String[] copyCode = new String[GameConfiguration.pegNumber];
+		String[] copyTurn = new String[GameConfiguration.pegNumber];
+		
 		//number of black and white pegs in the feedback 
-		int bPegs = 0;
 		int wPegs = 0;
-		boolean alreadyUtilized;
-		ArrayList<Integer> bIndices = new ArrayList<Integer>();
-		ArrayList<Integer> wIndices = new ArrayList<Integer>();
+		int bPegs = 0;
 
-		
-		
-		//find the number of black pegs in the feedback response
-		for(int i = 0; i < turn.length(); i++) {
-			//player got the correct color in the correct place 
-			//record the index position of the correct black peg
-			if(turn.charAt(i) == secretCode.charAt(i)) {
-				bPegs++;
-				bIndices.add(i);
-			}
-		}
-		
-		//find the number of white pegs in the feedback response
-		for(int i = 0; i < turn.length(); i++) {
-			//flag to make sure that color has already been utilized before for another peg
-			alreadyUtilized = false; 
-			//compare the player's guess color to all the other colors in the secret code 
-			for(int j = 0; j < turn.length(); j++) {
-				if(turn.charAt(i) == secretCode.charAt(j)) {
-					if(bIndices.contains(j) == false && alreadyUtilized == false && wIndices.contains(j) == false) {
-						wPegs++;
-						wIndices.add(j);
-						alreadyUtilized = true; 
-					}
-				}
-			}
-		}
-		
-		return new Response(bPegs, wPegs);
+		 //create the copies of the two arrays 
+        for(int i = 0; i < GameConfiguration.pegNumber; i++) {
+        	copyTurn[i] = turn.substring(i,i+1);
+            copyCode[i] = secretCode.substring(i,i+1);
+        }
+
+        //check to see how many black pegs occur in the feedback response
+        for(int i = 0; i < GameConfiguration.pegNumber; i++){
+            if(copyCode[i].equals(copyTurn[i])){
+            	bPegs++; //increment the number of black begs
+                copyCode[i]=""; //remove this location from the copied arrays
+                copyTurn[i]="";
+            }
+        }
+
+        //check to see how many white pegs occur in the feedback response
+        for(int i = 0; i < GameConfiguration.pegNumber; i++) {
+            if(copyCode[i].equals(""))
+                continue;
+            //loop through the indices that have not already been used above 
+            for(int j = 0; j < GameConfiguration.pegNumber; j++) {
+                if(copyTurn[j].equals("")){
+                    continue;
+                }
+                //if two different indices that have not yet been used are the same
+                //then that is a white peg
+                else if(copyCode[i].equals(copyTurn[j])){
+                	wPegs++;
+                    copyCode[j]="";
+                    copyTurn[i]="";
+                }
+            }
+        }
+        
+        return new Response(bPegs, wPegs);
 	}
 	
 

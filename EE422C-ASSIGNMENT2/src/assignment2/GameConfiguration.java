@@ -1,14 +1,11 @@
-/* If you submit this file, it will be ignored. Do not modify. */
+/* EE422C Project 2 (Mastermind)
+ * Spring 2017
+ */
 package assignment2;
 
 public class GameConfiguration {
-    final int guessNumber;
-    final String[] colors;
-    final int pegNumber;
 
-    GameConfiguration(int guessNumber, String[] colors, int pegNumber) {
-        this.guessNumber = guessNumber;
-        this.colors = colors;
-        this.pegNumber = pegNumber;
-    }
+    public static final int guessNumber = 12;
+    public static final String[] colors = {"B","G","O","P","R","Y"};
+    public static final int pegNumber = 4;
 }

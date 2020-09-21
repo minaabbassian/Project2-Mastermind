@@ -15,8 +15,9 @@ import java.util.Scanner;
 public class Driver {
     public static void main(String[] args) {
         // Use this for your testing.  We will not be calling this method.
-    	 GameConfiguration config = new GameConfiguration(4, new String[]{"R", "G", "B", "O"}, 4);
-         start(true, config, new SecretCodeGenerator(config));
+    	 GameConfiguration config = new GameConfiguration();
+         
+         start(false, config, new SecretCodeGenerator() );
     }
 
     public static void start(Boolean isTesting, GameConfiguration config, SecretCodeGenerator generator) {
