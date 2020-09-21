@@ -91,6 +91,8 @@ public class Game {
 			
 			//decrement the guesses remaining 
 			guessesLeft--;
+			if(guessesLeft == 0) //ADDED THIS STATEMENT SO THAT DOESN'T PRINT AN EXTRA LINE
+				break;
 			System.out.println();
 		}
 		
