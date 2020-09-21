@@ -114,21 +114,21 @@ public class Game {
 	 */
 	private Response formulateReply(String turn) {
 		//copy of the secret code and the player's guess
-		String[] copyCode = new String[GameConfiguration.pegNumber];
-		String[] copyTurn = new String[GameConfiguration.pegNumber];
+		String[] copyCode = new String[gameRules.pegNumber];
+		String[] copyTurn = new String[gameRules.pegNumber];
 		
 		//number of black and white pegs in the feedback 
 		int wPegs = 0;
 		int bPegs = 0;
 
 		 //create the copies of the two arrays 
-        for(int i = 0; i < GameConfiguration.pegNumber; i++) {
+        for(int i = 0; i < gameRules.pegNumber; i++) {
         	copyTurn[i] = turn.substring(i,i+1);
             copyCode[i] = secretCode.substring(i,i+1);
         }
 
         //check to see how many black pegs occur in the feedback response
-        for(int i = 0; i < GameConfiguration.pegNumber; i++){
+        for(int i = 0; i < gameRules.pegNumber; i++){
             if(copyCode[i].equals(copyTurn[i])){
             	bPegs++; //increment the number of black begs
                 copyCode[i]=""; //remove this location from the copied arrays
@@ -137,11 +137,11 @@ public class Game {
         }
 
         //check to see how many white pegs occur in the feedback response
-        for(int i = 0; i < GameConfiguration.pegNumber; i++) {
+        for(int i = 0; i < gameRules.pegNumber; i++) {
             if(copyCode[i].equals(""))
                 continue;
             //loop through the indices that have not already been used above 
-            for(int j = 0; j < GameConfiguration.pegNumber; j++) {
+            for(int j = 0; j < gameRules.pegNumber; j++) {
                 if(copyTurn[j].equals("")){
                     continue;
                 }
