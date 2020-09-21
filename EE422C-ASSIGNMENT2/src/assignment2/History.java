@@ -17,7 +17,8 @@ import java.util.ArrayList;
 
 public class History {
 
-	ArrayList<String> guessHistory;
+	ArrayList<String> guessHis;
+	
 	
 	/**
 	 * History
@@ -25,29 +26,30 @@ public class History {
 	 * Initializes an ArrayList of Strings to hold the player's previous valid guesses
 	 */
 	public History() {
-		guessHistory = new ArrayList<String>();
+		guessHis = new ArrayList<String>();
 	}
 	
 	
 	/**
-	 * addGuess
-	 * adds the player's previous guess to the guessHistory ArrayList
-	 * @param turn String representing the player's guess
-	 */
-	public void addGuess(String turn) {
-		guessHistory.add(turn);
-	}
-	
-	
-	/**
-	 * printHistory
+	 * printGuessHistory
 	 * prints out all the player's previous guesses using a simple for-each loop that 
 	 * 		fetches every element from the guessHistory ArrayList object one by one 
 	 */
-	public void printHistory() {
-		for(String guess: guessHistory) {
+	public void printGuessHistory() {
+		for(String guess: guessHis) {
 			System.out.println(guess);
 		}
+		System.out.println();
+	}
+	
+	
+	/**
+	 * addGuessHistory
+	 * adds the player's previous guess to the guessHistory ArrayList
+	 * @param turn String representing the player's guess
+	 */
+	public void addGuessHistory(String turn) {
+		guessHis.add(turn);
 	}
 	
 }

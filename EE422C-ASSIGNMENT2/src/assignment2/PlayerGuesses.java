@@ -1,4 +1,4 @@
-//Validity.java
+//PlayerGuesses.java
 /*
  * EE422C Project 2 (Mastermind) submission by
  * Mina Abbassian
@@ -8,26 +8,27 @@
  * Slip days used:
  */
 
-//The Validity Class
+//The PlayerGuesses Class
 //Checks the validity of the player's guess inputted on the keyboard to the console 
 package assignment2;
 
-public class Validity {
+public class PlayerGuesses {
 	
 	GameConfiguration gameRules;
 	
+	
 	/**
-	 * Validity
-	 * Constructor for the Validity class
+	 * PlayerGuesses
+	 * Constructor for the PlayerGuesses class
 	 * @param game GameConfiguration object that holds the rules for the setup of the game 
 	 */
-	public Validity(GameConfiguration game) {
+	public PlayerGuesses(GameConfiguration game) {
 		gameRules = game; 
 	}
 	
 	
 	/**
-	 * checkValidity 
+	 * guessValidity 
 	 * Checks if the player's guess is of incorrect length, depending on the pegNmber field 
 	 * 		of the GameConfiguration object
 	 *  Additionally, checks if the player inputted any invalid characters, using the colors 
@@ -36,14 +37,14 @@ public class Validity {
 	 * @return true if the player's guess is valid
 	 * 		   false if the player's guess is invalid  
 	 */
-	public Boolean checkValidity(String turn) {
+	public Boolean guessValidity(String turn) {
 		
 		//check if the player inputted any invalid characters
 		for(int i = 0; i < turn.length(); i++) {
-			Boolean charCheck = false;
+			Boolean charCheck = false; 
 			for(String validChars: gameRules.colors)
 				//will be false only if the player's guess includes an invalid character
-				charCheck = charCheck || turn.substring(i, i+1).equals(validChars);
+				charCheck = (charCheck) || (turn.substring(i, i+1).equals(validChars));
 			if(!charCheck)
 				return false;
 		}
