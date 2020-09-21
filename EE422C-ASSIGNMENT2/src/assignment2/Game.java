@@ -31,7 +31,7 @@ public class Game {
 	public Game(Boolean test, GameConfiguration rules, SecretCodeGenerator genCode, Scanner scan) {
 		isTest = test;
 		gameRules = rules;
-		secretCode = genCode.getInstance().getNewSecretCode();
+		secretCode = genCode.getNewSecretCode();
 		guessValidity = new PlayerGuesses(rules);
 		guessesLeft = rules.guessNumber;
 		refScanner = scan;
@@ -113,49 +113,30 @@ public class Game {
 	 *  	   the number of white ones, if any
 	 */
 	private Response formulateReply(String turn) {
-		//copy of the secret code and the player's guess
-		String[] copyCode = new String[gameRules.pegNumber];
-		String[] copyTurn = new String[gameRules.pegNumber];
-		
-		//number of black and white pegs in the feedback 
-		int wPegs = 0;
-		int bPegs = 0;
+		 boolean[] isUsedB = new boolean[gameRules.pegNumber];
+		    boolean[] isUsedW = new boolean[gameRules.pegNumber];
+		    int black = 0;
+		    int white = 0;
 
-		 //create the copies of the two arrays 
-        for(int i = 0; i < gameRules.pegNumber; i++) {
-        	copyTurn[i] = turn.substring(i,i+1);
-            copyCode[i] = secretCode.substring(i,i+1);
-        }
+		    for(int i = 0; i < turn.length(); i++) {
+		      if(turn.charAt(i) == secretCode.charAt(i)) {
+		        isUsedB[i] = true;
+		        isUsedW[i] = true;
+		        black++;
+		      }
+		    }
 
-        //check to see how many black pegs occur in the feedback response
-        for(int i = 0; i < gameRules.pegNumber; i++){
-            if(copyCode[i].equals(copyTurn[i])){
-            	bPegs++; //increment the number of black begs
-                copyCode[i]=""; //remove this location from the copied arrays
-                copyTurn[i]="";
-            }
-        }
-
-        //check to see how many white pegs occur in the feedback response
-        for(int i = 0; i < gameRules.pegNumber; i++) {
-            if(copyCode[i].equals(""))
-                continue;
-            //loop through the indices that have not already been used above 
-            for(int j = 0; j < gameRules.pegNumber; j++) {
-                if(copyTurn[j].equals("")){
-                    continue;
-                }
-                //if two different indices that have not yet been used are the same
-                //then that is a white peg
-                else if(copyCode[i].equals(copyTurn[j])){
-                	wPegs++;
-                    copyCode[j]="";
-                    copyTurn[i]="";
-                }
-            }
-        }
-        
-        return new Response(bPegs, wPegs);
+		    for(int i = 0; i < turn.length(); i++) {
+		      boolean useFlag = false; // to account for non duplicate white pegs
+		      for(int j = 0; j < turn.length(); j++) {
+		        if(turn.charAt(i) == secretCode.charAt(j) && !isUsedW[j] && !useFlag) {
+		          isUsedW[j] = true;
+		          white++;
+		          useFlag = true;
+		        }
+		      }
+		    }
+		    return new Response(black, white);
 	}
 	
 
