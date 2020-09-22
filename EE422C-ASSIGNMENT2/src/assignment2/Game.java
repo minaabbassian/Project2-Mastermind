@@ -46,6 +46,9 @@ public class Game {
 	 */
 	public void runGame() {
 		
+		Response reply;
+		String turn;
+		
 		//If and only if you are in testing mode, print the secret code
 		if(isTest) {
 			System.out.println("Secret code: " + secretCode);
@@ -53,9 +56,6 @@ public class Game {
 		} else {
 			System.out.println();
 		}
-		
-		Response reply;
-		String turn;
 		
 		//While loop until the player has no guesses left
 		while(guessesLeft != 0) {
