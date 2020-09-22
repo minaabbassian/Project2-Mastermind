@@ -15,14 +15,15 @@ import java.util.Scanner;
 
 public class Game {
 	
+	Boolean isTest;
+	PlayerGuesses guessValidity;
 	String secretCode;
 	int guessesLeft;
-	Scanner refScanner;
-	String recentTurn;
-	GameConfiguration gameRules;
-	Boolean isTest;
 	History guessHis;
-	PlayerGuesses guessValidity;
+	Scanner refScanner;
+	GameConfiguration gameRules;
+	String recentTurn;
+	
 	
 	/**
 	 * Game
@@ -38,11 +39,15 @@ public class Game {
 		guessHis = new History();	
 	}
 	
+	
 	/**
 	 * runGame
 	 * Carries out the actual Mastermind Game 
 	 */
 	public void runGame() {
+		
+		Response reply;
+		String turn;
 		
 		//If and only if you are in testing mode, print the secret code
 		if(isTest) {
@@ -52,21 +57,11 @@ public class Game {
 			System.out.println();
 		}
 		
-		String turn;
-		Response reply;
-		
 		//While loop until the player has no guesses left
 		while(guessesLeft != 0) {
 			System.out.println("You have " + Integer.toString(guessesLeft) + " guess(es) left.");
 			System.out.println("Enter guess: ");
 			turn = refScanner.nextLine(); //get the player's inputted guess using the reference to the scanner
-			
-			//check whether the player wants their guess history printed
-			if(turn.equals("HISTORY")) {
-				guessHis.printGuessHistory();
-				//System.out.println(); //added this to printGuessHistory() function ????
-				continue;
-			}
 			
 			//check whether the player's guess is invalid
 			if(!guessValidity.guessValidity(turn)) {
@@ -75,6 +70,12 @@ public class Game {
 				continue;
 			}
 			
+			//check whether the player wants their guess history printed
+			if(turn.equals("HISTORY")) {
+				guessHis.printGuessHistory();
+				continue;
+			}
+		
 			//formulate a reply to the player's given guess
 			reply = formulateReply(turn);
 			//create feedback response to be outputted to the console
@@ -92,7 +93,7 @@ public class Game {
 			}
 			
 			//decrement the guesses remaining 
-			guessesLeft--;
+			guessesLeft = guessesLeft - 1;
 			if(guessesLeft == 0) //ADDED THIS STATEMENT SO THAT DOESN'T PRINT AN EXTRA LINE
 				break;
 			System.out.println();

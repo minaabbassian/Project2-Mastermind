@@ -21,14 +21,16 @@ public class Driver {
         // TODO: complete this method
 		// We will call this method from our JUnit test cases.
     	
+    	//Print beginning messages 
     	System.out.println("Welcome to Mastermind.");
     	System.out.println("Do you want to play a new game? (Y/N): ");
     	
+    	//scan the player's answer, either Y or N
     	Scanner scannerRef = new Scanner(System.in);
     	String playerStart = scannerRef.nextLine();
     	
     	//continues while the player wants to play the game 
-    	while(!playerStart.equals("N") && playerStart.equals("Y")) {
+    	while(playerStart.equals("Y") && !playerStart.equals("N")) {
     		Game gameRun = new Game(isTesting, config, generator, scannerRef);
     		gameRun.runGame(); //player plays the game here 
     		//does the player want to play again?
