@@ -46,9 +46,6 @@ public class Game {
 	 */
 	public void runGame() {
 		
-		Response reply;
-		String turn;
-		
 		//If and only if you are in testing mode, print the secret code
 		if(isTest) {
 			System.out.println("Secret code: " + secretCode);
@@ -57,22 +54,25 @@ public class Game {
 			System.out.println();
 		}
 		
+		Response reply;
+		String turn;
+		
 		//While loop until the player has no guesses left
 		while(guessesLeft != 0) {
 			System.out.println("You have " + Integer.toString(guessesLeft) + " guess(es) left.");
 			System.out.println("Enter guess: ");
 			turn = refScanner.nextLine(); //get the player's inputted guess using the reference to the scanner
 			
+			//check whether the player wants their guess history printed
+			if(turn.equals("HISTORY")) {
+				guessHis.printGuessHistory();
+				continue;
+			}
+			
 			//check whether the player's guess is invalid
 			if(!guessValidity.guessValidity(turn)) {
 				System.out.println("INVALID_GUESS"); 
 				System.out.println();
-				continue;
-			}
-			
-			//check whether the player wants their guess history printed
-			if(turn.equals("HISTORY")) {
-				guessHis.printGuessHistory();
 				continue;
 			}
 		
